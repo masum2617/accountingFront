@@ -5,6 +5,7 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import EmployeeProfile from "./employeeprofile";
+import AgentProfile from "./agentprofile";
 import ClientProfile from "./clientprofile";
 
 const subscriptionroute = ({ match }) => (
@@ -18,6 +19,7 @@ const subscriptionroute = ({ match }) => (
       path={`${match.url}/employee-profile/:id`}
       component={EmployeeProfile}
     />
+    <Route path={`${match.url}/agent-profile/:id`} component={AgentProfile} />
     <Route path={`${match.url}/client-profile`} component={ClientProfile} />
   </Switch>
 );

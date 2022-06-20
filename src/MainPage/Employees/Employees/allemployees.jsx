@@ -182,7 +182,7 @@ const AllEmployees = () => {
                     </div>
                   </div>
                   <h4 className='user-name m-t-10 mb-0 text-ellipsis'>
-                    <Link to='/app/profile/employee-profile'>
+                    <Link to={`/app/profile/employee-profile/${employee.id}`}>
                       {employee.employee_name}
                     </Link>
                   </h4>

@@ -1,63 +1,58 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Addemployee = () => {
-  const [employee_name, setEmployeeName] = useState("");
-  const [employee_email, setEmployeeEmail] = useState("");
-  const [employee_address, setEmployeeAddress] = useState("");
-  const [employee_phone, setEmployeePhone] = useState("");
-  const [employee_salary, setEmployeeSalary] = useState("");
-  const [employee_date_joined, setEmployeeDateJoined] = useState("");
-  const [employee_role, setEmployeeRole] = useState(null);
-  const [employee_photo, setEmployeePhoto] = useState(null);
+const Addagent = () => {
+  const [agent_name, setAgentName] = useState("");
+  const [agent_email, setAgentEmail] = useState("");
+  const [agent_address, setAgentAddress] = useState("");
+  const [agent_phone, setAgentPhone] = useState("");
+  const [agent_salary, setAgentSalary] = useState("");
+  const [agent_date_joined, setAgentDateJoined] = useState("");
+  const [agent_photo, setAgentPhoto] = useState(null);
 
-  const employeeNameHandler = e => {
+  const agentNameHandler = e => {
     console.log(e.target.value);
-    setEmployeeName(e.target.value);
+    setAgentName(e.target.value);
   };
-  const roleHandler = e => {
-    console.log(e.target.value);
-    setEmployeeRole(e.target.value);
-  };
+
   const emailHandler = e => {
-    setEmployeeEmail(e.target.value);
+    setAgentEmail(e.target.value);
   };
   const addressHandler = e => {
-    setEmployeeAddress(e.target.value);
+    setAgentAddress(e.target.value);
   };
   const phoneHandler = e => {
-    setEmployeePhone(e.target.value);
+    setAgentPhone(e.target.value);
   };
   const salaryHandler = e => {
     console.log(e.target.value);
-    setEmployeeSalary(e.target.value);
+    setAgentSalary(e.target.value);
   };
   const joinDateHandler = e => {
-    setEmployeeDateJoined(e.target.value);
+    setAgentDateJoined(e.target.value);
   };
 
   const photoHandler = e => {
-    setEmployeePhoto(e.target.files[0]);
+    setAgentPhoto(e.target.files[0]);
   };
 
   // Handle POST Request form submission
   const submitHandler = async e => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("employee_name", employee_name);
-    formData.append("employee_email", employee_email);
-    formData.append("employee_role", employee_role);
-    formData.append("employee_salary", employee_salary);
-    formData.append("employee_address", employee_address);
-    formData.append("employee_phone", employee_phone);
-    formData.append("employee_date_joined", employee_date_joined);
-    if (employee_photo !== null) {
-      formData.append("employee_photo", employee_photo);
+    formData.append("agent_name", agent_name);
+    formData.append("agent_email", agent_email);
+    formData.append("agent_salary", agent_salary);
+    formData.append("agent_address", agent_address);
+    formData.append("agent_phone", agent_phone);
+    formData.append("agent_date_joined", agent_date_joined);
+    if (agent_photo !== null) {
+      formData.append("agent_photo", agent_photo);
     }
 
     await axios({
       method: "POST",
-      url: "http://127.0.0.1:8000/employees/employee-list/",
+      url: "http://127.0.0.1:8000/employees/agent-list/",
       data: formData,
     }).then(response => {
       console.log(response.data);
@@ -67,14 +62,14 @@ const Addemployee = () => {
   return (
     <>
       {/* Add Employee Modal */}
-      <div id='add_employee' className='modal custom-modal fade' role='dialog'>
+      <div id='add_agent' className='modal custom-modal fade' role='dialog'>
         <div
           className='modal-dialog modal-dialog-centered modal-lg'
           role='document'
         >
           <div className='modal-content'>
             <div className='modal-header'>
-              <h5 className='modal-title'>Add Employee</h5>
+              <h5 className='modal-title'>Add Agent</h5>
               <button
                 type='button'
                 className='close'
@@ -90,10 +85,10 @@ const Addemployee = () => {
                   <div className='col-sm-6'>
                     <div className='form-group'>
                       <label className='col-form-label'>
-                        Employee Name<span className='text-danger'>*</span>
+                        Agent Name<span className='text-danger'>*</span>
                       </label>
                       <input
-                        onChange={employeeNameHandler}
+                        onChange={agentNameHandler}
                         className='form-control'
                         type='text'
                       />
@@ -123,7 +118,7 @@ const Addemployee = () => {
                       />
                     </div>
                   </div>
-                  <div className='col-sm-6'>
+                  {/* <div className='col-sm-6'>
                     <div className='form-group'>
                       <label className='col-form-label'>
                         Salary <span className='text-danger'>*</span>
@@ -134,7 +129,7 @@ const Addemployee = () => {
                         type='number'
                       />
                     </div>
-                  </div>
+                  </div> */}
                   {/* <div className="col-sm-6">
                        <div className="form-group">
                          <label className="col-form-label">Password</label>
@@ -150,7 +145,7 @@ const Addemployee = () => {
                   <div className='col-sm-6'>
                     <div className='form-group'>
                       <label className='col-form-label'>
-                        Employee Address <span className='text-danger'>*</span>
+                        Agent Address <span className='text-danger'>*</span>
                       </label>
                       <input
                         onChange={addressHandler}
@@ -177,7 +172,7 @@ const Addemployee = () => {
                          <input className="form-control" type="text" />
                        </div>
                      </div> */}
-                  <div className='col-sm-6'>
+                  {/* <div className='col-sm-6'>
                     <div className='form-group'>
                       <label className='col-form-label'>Designation</label>
                       <br />
@@ -188,7 +183,7 @@ const Addemployee = () => {
                         <option value='Accountant'>Accountant</option>
                       </select>
                     </div>
-                  </div>
+                  </div> */}
                   {/* <div className="col-md-6">
                        <div className="form-group">
                          <label>Department <span className="text-danger">*</span></label>
@@ -202,7 +197,7 @@ const Addemployee = () => {
                      </div> */}
                   <div className='col-sm-6'>
                     <div className='form-group'>
-                      <label className='col-form-label'>Employee Photo</label>
+                      <label className='col-form-label'>Agent Photo</label>
                       <input
                         className='upload'
                         type='file'
@@ -210,7 +205,7 @@ const Addemployee = () => {
                       />
                       <img
                         className='inline-block'
-                        src={employee_photo}
+                        src={agent_photo}
                         alt='user'
                       />
                     </div>
@@ -428,4 +423,4 @@ const Addemployee = () => {
   );
 };
 
-export default Addemployee;
+export default Addagent;

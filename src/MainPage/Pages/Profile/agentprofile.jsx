@@ -13,9 +13,8 @@ import {
   Avatar_16,
 } from "../../../Entryfile/imagepath";
 
-const EmployeeProfile = ({ match, history }) => {
-  let employeeID = match.params.id;
-  console.log("ID: ", employeeID);
+const AgentProfile = ({ match, history }) => {
+  let agentID = match.params.id;
 
   useEffect(() => {
     if ($(".select").length > 0) {
@@ -26,85 +25,77 @@ const EmployeeProfile = ({ match, history }) => {
     }
   });
 
-  const [employee_name, setEmployeeName] = useState("");
-  const [employee_role, setEmployeeRole] = useState("");
-  const [employee_email, setEmployeeEmail] = useState("");
-  const [employee_salary, setEmployeeSalary] = useState("");
-  const [employee_address, setEmployeeAddress] = useState("");
-  const [employee_phone, setEmployeePhone] = useState("");
-  const [employee_date_joined, setEmployeeDateJoined] = useState("");
-  const [employee_photo, setEmployeePhoto] = useState(null);
+  const [agent_name, setAgentName] = useState("");
+  const [agent_email, setAgentEmail] = useState("");
+  const [agent_address, setAgentAddress] = useState("");
+  const [agent_phone, setAgentPhone] = useState("");
+  const [agent_date_joined, setAgentDateJoined] = useState("");
+  const [agent_photo, setAgentPhoto] = useState(null);
 
   // 1. get single employee with param id
-  let getEmployees = useCallback(async () => {
+  let getAgents = useCallback(async () => {
     const response = await axios.get(
-      `http://127.0.0.1:8000/employees/employee-detail/${employeeID}`
+      `http://127.0.0.1:8000/employees/agent-detail/${agentID}`
     );
     let data = await response.data;
-    setEmployeeName(data.employee_name);
-    setEmployeeRole(data.employee_role);
-    setEmployeeEmail(data.employee_email);
-    setEmployeeSalary(data.employee_salary);
-    setEmployeeAddress(data.employee_address);
-    setEmployeePhone(data.employee_phone);
-    setEmployeeDateJoined(data.employee_date_joined);
-    setEmployeePhoto(data.employee_photo);
+    setAgentName(data.agent_name);
+    setAgentEmail(data.agent_email);
+    setAgentAddress(data.agent_address);
+    setAgentPhone(data.agent_phone);
+    setAgentDateJoined(data.agent_date_joined);
+    setAgentPhoto(data.agent_photo);
   }, []);
 
   useEffect(() => {
-    getEmployees();
-  }, [getEmployees]);
+    getAgents();
+  }, [getAgents]);
 
   // handler functions
   const nameChangeHandler = e => {
-    setEmployeeName(e.target.value);
+    setAgentName(e.target.value);
   };
 
-  const photoHandler = e => {
-    setEmployeePhoto(e.target.files[0]);
-  };
+  //   const photoHandler = e => {
+  //     setAgentPhoto(e.target.files[0]);
+  //   };
 
   const addressHandler = e => {
-    setEmployeeAddress(e.target.value);
+    setAgentAddress(e.target.value);
   };
 
   const phoneNumHandler = e => {
     console.log(e.target.value);
-    setEmployeePhone(e.target.value);
+    setAgentPhone(e.target.value);
+  };
+
+  const dateHandler = e => {
+    setAgentDateJoined(e.target.value);
   };
 
   // Handle form submit for UPDATE
   const submitHandler = async e => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("employee_name", employee_name);
-    formData.append("employee_role", employee_role);
-    formData.append("employee_email", employee_email);
-    // formData.append("employee_name", employee_salary);
-    formData.append("employee_address", employee_address);
-    formData.append("employee_phone", employee_phone);
-    formData.append("employee_date_joined", employee_date_joined);
-    // formData.append("employee_photo", employee_photo);
-
-    console.log(formData.employee_address);
+    formData.append("agent_name", agent_name);
+    formData.append("agent_email", agent_email);
+    formData.append("agent_address", agent_address);
+    formData.append("agent_phone", agent_phone);
+    formData.append("agent_date_joined", agent_date_joined);
+    // formData.append("agent_photo", agent_photo);
 
     await axios({
       method: "PATCH",
-      url: `http://127.0.0.1:8000/employees/employee-detail/${employeeID}/`,
+      url: `http://127.0.0.1:8000/employees/agent-detail/${agentID}/`,
       data: formData,
     }).then(response => {
       console.log(response.data);
     });
   };
-  // const response = await axios.post(
-  //   `http://127.0.0.1:8000/employees/employee-detail/${employeeID}/`,
-  //   formData
-  // );
 
   return (
     <div className='page-wrapper'>
       <Helmet>
-        <title>Employee Profile - HRMS admin Template</title>
+        <title>Agent Profile - Pacific Academy</title>
         <meta name='description' content='Reactify Blank Page' />
       </Helmet>
       {/* Page Content */}
@@ -133,7 +124,7 @@ const EmployeeProfile = ({ match, history }) => {
                   <div className='profile-img-wrap'>
                     <div className='profile-img'>
                       <a href='#'>
-                        <img alt='' src={employee_photo} />
+                        <img alt='' src={agent_photo} />
                       </a>
                     </div>
                   </div>
@@ -141,26 +132,24 @@ const EmployeeProfile = ({ match, history }) => {
                     <div className='row'>
                       <div className='col-md-5'>
                         <div className='profile-info-left'>
-                          <h3 className='user-name m-t-0 mb-0'>
-                            {employee_name}
-                          </h3>
+                          <h3 className='user-name m-t-0 mb-0'>{agent_name}</h3>
                           <h6 className='text-muted'>UI/UX Design Team</h6>
-                          <small className='text-muted'>{employee_role}</small>
-                          <div className='staff-id'>Employee ID : FT-0001</div>
+                          <small className='text-muted'>Agent</small>
+                          <div className='staff-id'>Agent ID : FT-0001</div>
                           <div className='small doj text-muted'>
-                            Date of Join : {employee_date_joined}
+                            Date of Join : {agent_date_joined}
                           </div>
                           {/* <div className='staff-msg'>
-                            <Link
-                              onClick={() =>
-                                localStorage.setItem("minheight", "true")
-                              }
-                              className='btn btn-custom'
-                              to='/conversation/chat'
-                            >
-                              Send Message
-                            </Link>
-                          </div> */}
+                             <Link
+                               onClick={() =>
+                                 localStorage.setItem("minheight", "true")
+                               }
+                               className='btn btn-custom'
+                               to='/conversation/chat'
+                             >
+                               Send Message
+                             </Link>
+                           </div> */}
                         </div>
                       </div>
                       <div className='col-md-7'>
@@ -168,29 +157,29 @@ const EmployeeProfile = ({ match, history }) => {
                           <li>
                             <div className='title'>Phone:</div>
                             <div className='text'>
-                              <a href=''>{employee_phone}</a>
+                              <a href=''>{agent_phone}</a>
                             </div>
                           </li>
                           <li>
                             <div className='title'>Email:</div>
                             <div className='text'>
-                              <a href=''>{employee_email}</a>
+                              <a href=''>{agent_email}</a>
                             </div>
                           </li>
                           {/* <li>
-                            <div className='title'>Birthday:</div>
-                            <div className='text'>24th July</div>
-                          </li> */}
+                             <div className='title'>Birthday:</div>
+                             <div className='text'>24th July</div>
+                           </li> */}
                           <li>
                             <div className='title'>Address:</div>
-                            <div className='text'>{employee_address}</div>
+                            <div className='text'>{agent_address}</div>
                           </li>
+                          {/* <li>
+                             <div className='title'>Gender:</div>
+                             <div className='text'>Male</div>
+                           </li> */}
                           <li>
-                            <div className='title'>Gender:</div>
-                            <div className='text'>Male</div>
-                          </li>
-                          <li>
-                            <div className='title'>Reports to:</div>
+                            {/* <div className='title'>Reports to:</div>
                             <div className='text'>
                               <div className='avatar-box'>
                                 <div className='avatar avatar-xs'>
@@ -200,7 +189,7 @@ const EmployeeProfile = ({ match, history }) => {
                               <Link to='/app/profile/employee-profile'>
                                 Jeffery Lalor
                               </Link>
-                            </div>
+                            </div> */}
                           </li>
                         </ul>
                       </div>
@@ -370,90 +359,90 @@ const EmployeeProfile = ({ match, history }) => {
               {/* Emergency contact end */}
             </div>
             {/* <div className='row'>
-              <div className='col-md-6 d-flex'>
-                <div className='card profile-box flex-fill'>
-                  <div className='card-body'>
-                    <h3 className='card-title'>Bank information</h3>
-                    <ul className='personal-info'>
-                      <li>
-                        <div className='title'>Bank name</div>
-                        <div className='text'>ICICI Bank</div>
-                      </li>
-                      <li>
-                        <div className='title'>Bank account No.</div>
-                        <div className='text'>159843014641</div>
-                      </li>
-                      <li>
-                        <div className='title'>IFSC Code</div>
-                        <div className='text'>ICI24504</div>
-                      </li>
-                      <li>
-                        <div className='title'>PAN No</div>
-                        <div className='text'>TC000Y56</div>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className='col-md-6 d-flex'>
-                <div className='card profile-box flex-fill'>
-                  <div className='card-body'>
-                    <h3 className='card-title'>
-                      Family Informations{" "}
-                      <a
-                        href='#'
-                        className='edit-icon'
-                        data-bs-toggle='modal'
-                        data-bs-target='#family_info_modal'
-                      >
-                        <i className='fa fa-pencil' />
-                      </a>
-                    </h3>
-                    <div className='table-responsive'>
-                      <table className='table table-nowrap'>
-                        <thead>
-                          <tr>
-                            <th>Name</th>
-                            <th>Relationship</th>
-                            <th>Date of Birth</th>
-                            <th>Phone</th>
-                            <th />
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Leo</td>
-                            <td>Brother</td>
-                            <td>Feb 16th, 2019</td>
-                            <td>9876543210</td>
-                            <td className='text-end'>
-                              <div className='dropdown dropdown-action'>
-                                <a
-                                  aria-expanded='false'
-                                  data-bs-toggle='dropdown'
-                                  className='action-icon dropdown-toggle'
-                                  href='#'
-                                >
-                                  <i className='material-icons'>more_vert</i>
-                                </a>
-                                <div className='dropdown-menu dropdown-menu-right'>
-                                  <a href='#' className='dropdown-item'>
-                                    <i className='fa fa-pencil m-r-5' /> Edit
-                                  </a>
-                                  <a href='#' className='dropdown-item'>
-                                    <i className='fa fa-trash-o m-r-5' /> Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div> */}
+               <div className='col-md-6 d-flex'>
+                 <div className='card profile-box flex-fill'>
+                   <div className='card-body'>
+                     <h3 className='card-title'>Bank information</h3>
+                     <ul className='personal-info'>
+                       <li>
+                         <div className='title'>Bank name</div>
+                         <div className='text'>ICICI Bank</div>
+                       </li>
+                       <li>
+                         <div className='title'>Bank account No.</div>
+                         <div className='text'>159843014641</div>
+                       </li>
+                       <li>
+                         <div className='title'>IFSC Code</div>
+                         <div className='text'>ICI24504</div>
+                       </li>
+                       <li>
+                         <div className='title'>PAN No</div>
+                         <div className='text'>TC000Y56</div>
+                       </li>
+                     </ul>
+                   </div>
+                 </div>
+               </div>
+               <div className='col-md-6 d-flex'>
+                 <div className='card profile-box flex-fill'>
+                   <div className='card-body'>
+                     <h3 className='card-title'>
+                       Family Informations{" "}
+                       <a
+                         href='#'
+                         className='edit-icon'
+                         data-bs-toggle='modal'
+                         data-bs-target='#family_info_modal'
+                       >
+                         <i className='fa fa-pencil' />
+                       </a>
+                     </h3>
+                     <div className='table-responsive'>
+                       <table className='table table-nowrap'>
+                         <thead>
+                           <tr>
+                             <th>Name</th>
+                             <th>Relationship</th>
+                             <th>Date of Birth</th>
+                             <th>Phone</th>
+                             <th />
+                           </tr>
+                         </thead>
+                         <tbody>
+                           <tr>
+                             <td>Leo</td>
+                             <td>Brother</td>
+                             <td>Feb 16th, 2019</td>
+                             <td>9876543210</td>
+                             <td className='text-end'>
+                               <div className='dropdown dropdown-action'>
+                                 <a
+                                   aria-expanded='false'
+                                   data-bs-toggle='dropdown'
+                                   className='action-icon dropdown-toggle'
+                                   href='#'
+                                 >
+                                   <i className='material-icons'>more_vert</i>
+                                 </a>
+                                 <div className='dropdown-menu dropdown-menu-right'>
+                                   <a href='#' className='dropdown-item'>
+                                     <i className='fa fa-pencil m-r-5' /> Edit
+                                   </a>
+                                   <a href='#' className='dropdown-item'>
+                                     <i className='fa fa-trash-o m-r-5' /> Delete
+                                   </a>
+                                 </div>
+                               </div>
+                             </td>
+                           </tr>
+                         </tbody>
+                       </table>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div> */}
 
             <div className='row'>
               <div className='col-md-6 d-flex'>
@@ -1107,7 +1096,6 @@ const EmployeeProfile = ({ match, history }) => {
                             type='text'
                             className='form-control'
                             placeholder='Type your salary amount'
-                            defaultValue={employee_salary}
                           />
                         </div>
                       </div>
@@ -1359,54 +1347,49 @@ const EmployeeProfile = ({ match, history }) => {
                     <div className='profile-img-wrap edit-img'>
                       <img
                         className='inline-block'
-                        src={employee_photo}
+                        src={agent_photo}
                         alt='user'
                       />
                       <div className='fileupload btn'>
                         <span className='btn-text'>edit</span>
-                        <input
-                          className='upload'
-                          type='file'
-                          onChange={photoHandler}
-                        />
+                        <input className='upload' type='file' />
                       </div>
                     </div>
                     <div className='row'>
                       <div className='col-md-6'>
                         <div className='form-group'>
-                          <label>First Name</label>
+                          <label>Full Name</label>
                           <input
                             type='text'
                             className='form-control'
-                            value={employee_name}
+                            value={agent_name}
                             onChange={nameChangeHandler}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-md-6'>
+                        <div className='form-group'>
+                          <label>Email</label>
+                          <input
+                            type='email'
+                            className='form-control'
+                            value={agent_email}
                           />
                         </div>
                       </div>
                       {/* <div className='col-md-6'>
                         <div className='form-group'>
-                          <label>Last Name</label>
-                          <input
-                            type='text'
-                            className='form-control'
-                            defaultValue='Doe'
-                          />
-                        </div>
-                      </div> */}
-                      <div className='col-md-6'>
-                        <div className='form-group'>
-                          <label>Joined Date</label>
+                          <label>Birth Date</label>
                           <div>
                             <input
                               className='form-control datetimepicker'
                               type='date'
-                              value={employee_date_joined}
-                              onChange={setEmployeeDateJoined}
+                              defaultValue='05/06/1985'
                             />
                           </div>
                         </div>
-                      </div>
-                      <div className='col-md-6'>
+                      </div> */}
+                      {/* <div className='col-md-6'>
                         <div className='form-group'>
                           <label>Gender</label>
                           <select className='select form-control'>
@@ -1414,64 +1397,78 @@ const EmployeeProfile = ({ match, history }) => {
                             <option value='female'>Female</option>
                           </select>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
+
                 <div className='row'>
-                  <div className='col-md-12'>
-                    <div className='form-group'>
-                      <label>Address</label>
-                      <input
-                        type='text'
-                        className='form-control'
-                        value={employee_address}
-                        onChange={addressHandler}
-                      />
-                    </div>
-                  </div>
-                  {/* <div className='col-md-6'>
-                    <div className='form-group'>
-                      <label>State</label>
-                      <input
-                        type='text'
-                        className='form-control'
-                        defaultValue='New York'
-                      />
-                    </div>
-                  </div> */}
-                  {/* <div className='col-md-6'>
-                    <div className='form-group'>
-                      <label>Country</label>
-                      <input
-                        type='text'
-                        className='form-control'
-                        defaultValue='United States'
-                      />
-                    </div>
-                  </div> */}
-                  {/* <div className='col-md-6'>
-                    <div className='form-group'>
-                      <label>Pin Code</label>
-                      <input
-                        type='text'
-                        className='form-control'
-                        defaultValue={10523}
-                      />
-                    </div>
-                  </div> */}
                   <div className='col-md-6'>
                     <div className='form-group'>
                       <label>Phone Number</label>
                       <input
                         type='text'
                         className='form-control'
-                        value={employee_phone}
+                        value={agent_phone}
                         onChange={phoneNumHandler}
                       />
                     </div>
                   </div>
+
                   <div className='col-md-6'>
+                    <div className='form-group'>
+                      <label>Joining Date</label>
+                      <input
+                        type='date'
+                        className='form-control'
+                        value={agent_date_joined}
+                        onChange={dateHandler}
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-12'>
+                    <div className='form-group'>
+                      <label>Address</label>
+                      <input
+                        type='text'
+                        className='form-control'
+                        value={agent_address}
+                        onChange={addressHandler}
+                      />
+                    </div>
+                  </div>
+                  {/* <div className='col-md-6'>
+                     <div className='form-group'>
+                       <label>State</label>
+                       <input
+                         type='text'
+                         className='form-control'
+                         defaultValue='New York'
+                       />
+                     </div>
+                   </div> */}
+                  {/* <div className='col-md-6'>
+                     <div className='form-group'>
+                       <label>Country</label>
+                       <input
+                         type='text'
+                         className='form-control'
+                         defaultValue='United States'
+                       />
+                     </div>
+                   </div> */}
+                  {/* <div className='col-md-6'>
+                     <div className='form-group'>
+                       <label>Pin Code</label>
+                       <input
+                         type='text'
+                         className='form-control'
+                         defaultValue={10523}
+                       />
+                     </div>
+                   </div> */}
+
+                  {/* <div className='col-md-6'>
                     <div className='form-group'>
                       <label>
                         Department <span className='text-danger'>*</span>
@@ -1483,8 +1480,8 @@ const EmployeeProfile = ({ match, history }) => {
                         <option>Marketing</option>
                       </select>
                     </div>
-                  </div>
-                  <div className='col-md-6'>
+                  </div> */}
+                  {/* <div className='col-md-6'>
                     <div className='form-group'>
                       <label>
                         Designation <span className='text-danger'>*</span>
@@ -1496,8 +1493,8 @@ const EmployeeProfile = ({ match, history }) => {
                         <option>Android Developer</option>
                       </select>
                     </div>
-                  </div>
-                  <div className='col-md-6'>
+                  </div> */}
+                  {/* <div className='col-md-6'>
                     <div className='form-group'>
                       <label>
                         Reports To <span className='text-danger'>*</span>
@@ -1509,7 +1506,7 @@ const EmployeeProfile = ({ match, history }) => {
                         <option>Jeffery Lalor</option>
                       </select>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className='submit-section'>
                   <button
@@ -2229,4 +2226,4 @@ const EmployeeProfile = ({ match, history }) => {
     </div>
   );
 };
-export default EmployeeProfile;
+export default AgentProfile;

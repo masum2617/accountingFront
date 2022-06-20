@@ -8858,3 +8858,14 @@ ul.comment-list li ul.children {
   justify-content: center;
   font-size: 11px;
 }
+.new-select {
+  width: 100%;
+  min-width: 15ch;
+  max-width: 40ch;
+  border: 1px solid lightgrey;
+  border-radius: 0.15em;
+  padding: 0.35em 0.5em;
+  font-size: inherit;
+  cursor: pointer;
+  line-height: 1.2;
+}
