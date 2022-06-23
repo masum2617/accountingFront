@@ -8864,7 +8864,8 @@ ul.comment-list li ul.children {
   max-width: 40ch;
   border: 1px solid lightgrey;
   border-radius: 0.15em;
-  padding: 0.35em 0.5em;
+  margin-top: 5px;
+  padding: 0.45em 0.6em;
   font-size: inherit;
   cursor: pointer;
   line-height: 1.2;

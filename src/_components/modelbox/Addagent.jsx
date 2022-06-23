@@ -1,7 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const Addagent = () => {
+  let history = useHistory();
+  function hide_modal() {
+    if ($(".modal").length > 0) {
+      var modalUniqueClass = ".modal";
+      $(".modal").on("show.bs.modal", function (e) {
+        var $element = $(this);
+        var $uniques = $(modalUniqueClass + ":visible").not($(this));
+        if ($uniques.length) {
+          $uniques.modal("hide");
+          $uniques.one("hidden.bs.modal", function (e) {
+            $element.modal("show");
+          });
+          return false;
+        }
+      });
+    }
+  }
+
   const [agent_name, setAgentName] = useState("");
   const [agent_email, setAgentEmail] = useState("");
   const [agent_address, setAgentAddress] = useState("");
@@ -56,12 +75,14 @@ const Addagent = () => {
       data: formData,
     }).then(response => {
       console.log(response.data);
+      // history.push("");
+      hide_modal();
     });
   };
 
   return (
     <>
-      {/* Add Employee Modal */}
+      {/* Add Agent Modal */}
       <div id='add_agent' className='modal custom-modal fade' role='dialog'>
         <div
           className='modal-dialog modal-dialog-centered modal-lg'

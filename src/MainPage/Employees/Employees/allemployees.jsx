@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
@@ -39,17 +39,17 @@ const AllEmployees = () => {
   });
 
   // 1. get all the employees from database
-  let getEmployees = async () => {
+  let getEmployees = useCallback(async () => {
     const response = await axios.get(
       "http://127.0.0.1:8000/employees/employee-list/"
     );
     let data = await response.data;
     console.log(data);
     setEmployees(data);
-  };
+  }, []);
   useEffect(() => {
     getEmployees();
-  }, []);
+  }, [getEmployees]);
 
   // 2. show them to the fron end
 

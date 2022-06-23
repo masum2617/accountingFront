@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
@@ -16,17 +16,17 @@ const AllAgents = () => {
 
   //   get all agents
   // 1. get all the employees from database
-  let getAgents = async () => {
+  let getAgents = useCallback(async () => {
     const response = await axios.get(
       "http://localhost:8000/employees/agent-list/"
     );
     let data = await response.data;
     console.log(data);
     setAgents(data);
-  };
+  }, []);
   useEffect(() => {
     getAgents();
-  }, []);
+  }, [getAgents]);
 
   return (
     <div className={`main-wrapper ${menu ? "slide-nav" : ""}`}>
