@@ -138,7 +138,7 @@ const AllEmployees = () => {
           </div>
           {/* Search Filter */}
           <div className='row staff-grid-row'>
-            {/* single employee list start */}
+            {/*  employee list start */}
             {employees.map((employee, index) => (
               <div
                 key={index}

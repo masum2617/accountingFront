@@ -31,6 +31,30 @@ const Assets = () => {
   const [note, setNote] = useState("");
   const [payment_bank, setPaymentBank] = useState("");
 
+  async function handleAsset(id) {
+    console.log(id);
+
+    const response = await axios.get(
+      `http://127.0.0.1:8000/inventory/inventory-list/${id}`
+    );
+    let data = await response.data;
+    console.log(data);
+
+    //   // set the values
+    // setAssetName(data.asset_name);
+    // setAssetPrice(data.asset_price);
+    // setSerialNumber(data.serial_number);
+    // setPurchaseDate(data.purchase_date);
+    // setPurchaseFrom(data.purchase_from);
+    // setNote(data.description);
+    // setIsBankConnected(data.connect_with_bank);
+    // setIsPaid(data.is_paid);
+    // setIsPending(data.is_pending);
+    // setIsRejected(data.is_rejected);
+    // setBanks(data.payment_bank);
+    // setEmployees(data.paid_by);
+  }
+
   const paymentMethodHandler = e => {
     setPaymentMethod(e.target.value);
     // console.log(e.target.value);
@@ -75,6 +99,32 @@ const Assets = () => {
   const isRejectedHandler = () => {
     setIsRejected(!isRejected);
   };
+
+  // get single asset
+  // let getSingleAsset = async () => {
+  //   const response = await axios.get(
+  //     `http://localhost:8000/inventory/inventory-detail/${singleAssetID}`
+  //   );
+  //   let data = await response.data;
+  //   console.log(data);
+
+  //   // set the values
+  //   // setAssetName(data.asset_name);
+  //   // setAssetPrice(data.asset_price);
+  //   // setSerialNumber(data.serial_number);
+  //   // setPurchaseDate(data.purchase_date);
+  //   // setPurchaseFrom(data.purchase_from);
+  //   // setNote(data.description);
+  //   // setIsBankConnected(data.connect_with_bank);
+  //   // setIsPaid(data.is_paid);
+  //   // setIsPending(data.is_pending);
+  //   // setIsRejected(data.is_rejected);
+  //   // setBanks(data.payment_bank);
+  //   // setEmployees(data.paid_by);
+  // };
+  // useEffect(() => {
+  //   getSingleAsset();
+  // }, []);
 
   // get the banks
   let getBanks = useCallback(async () => {
@@ -135,23 +185,10 @@ const Assets = () => {
     console.log(data);
     // setAssets(data);
     setData(data);
-    // set the values
-    // setAssetName(data.asset_name);
-    // setAssetPrice(data.asset_price);
-    // setSerialNumber(data.serial_number);
-    // setPurchaseDate(data.purchase_date);
-    // setPurchaseFrom(data.purchase_from);
-    // setNote(data.description);
-    // setIsBankConnected(data.connect_with_bank);
-    // setIsPaid(data.is_paid);
-    // setIsPending(data.is_pending);
-    // setIsRejected(data.is_rejected);
-    // setBanks(data.payment_bank);
-    // setEmployees(data.paid_by);
   }, []);
   useEffect(() => {
     getAssets();
-  }, [getAssets]);
+  }, []);
   console.log("datas: ", data);
 
   useEffect(() => {
@@ -309,14 +346,14 @@ const Assets = () => {
             <i className='material-icons'>more_vert</i>
           </a>
           <div className='dropdown-menu dropdown-menu-right'>
-            <Link
+            <a
               className='dropdown-item'
-              to={`app/administrator/assets/asset-detail/${text}`}
               data-bs-toggle='modal'
               data-bs-target='#edit_asset'
+              onClick={() => handleAsset(text)}
             >
               <i className='fa fa-pencil m-r-5' /> Edit
-            </Link>
+            </a>
             <a
               className='dropdown-item'
               href='#'
@@ -434,6 +471,7 @@ const Assets = () => {
                 // bordered
                 dataSource={data}
                 rowKey={record => record.id}
+
                 // onChange={this.handleTableChange}
               />
             </div>

@@ -364,6 +364,53 @@ const Sidebar = props => {
                   <i className='la la-users' /> <span>Clients</span>
                 </Link>
               </li>
+              {/* Studetn List */}
+              <li className='submenu'>
+                <a
+                  href='#'
+                  className={isSideMenu == "students" ? "subdrop" : ""}
+                  onClick={() =>
+                    toggleSidebar(isSideMenu == "students" ? "" : "students")
+                  }
+                >
+                  <i className='las la-graduation-cap' /> <span> Students</span>{" "}
+                  <span className='menu-arrow' />
+                </a>
+
+                {isSideMenu == "students" ? (
+                  <ul>
+                    <li>
+                      <Link
+                        className={
+                          pathname.includes("t_dashboard")
+                            ? "active"
+                            : pathname.includes("projects-list")
+                            ? "active"
+                            : pathname.includes("cts-view")
+                            ? "active"
+                            : ""
+                        }
+                        to='/app/students/allstudents'
+                      >
+                        All Students
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        onClick={() =>
+                          localStorage.setItem("minheight", "true")
+                        }
+                        to='/tasks/tasks'
+                      >
+                        Tasks
+                      </Link>
+                    </li>
+                  </ul>
+                ) : (
+                  ""
+                )}
+              </li>
+
               <li className='submenu'>
                 <a
                   href='#'
