@@ -28,6 +28,12 @@ const StudentProfile = ({ match }) => {
   const [date_of_registration, setDateOfRegistration] = useState("");
   const [student_photo, setStudentPhoto] = useState("");
 
+  const [SSC_DAKHIL, setSSC_DAKHIL] = useState("");
+  const [HSC_ALIM_DIPLOMA, setHSC_ALIM_DIPLOMA] = useState("");
+  const [HONOURS_DEGREE_FAZIL, setHONOURS_DEGREE_FAZIL] = useState("");
+  const [MASTERS_KAMIL, setMASTERS_KAMIL] = useState("");
+  const [passing_year, setPassingYear] = useState("");
+
   useEffect(() => {
     if ($(".select").length > 0) {
       $(".select").select2({
@@ -48,7 +54,7 @@ const StudentProfile = ({ match }) => {
       setFatherName(data.father_name);
       setMotherName(data.mother_name);
       setPermanentAddress(data.permanent_address);
-      setPresentAddress(data.permanent_address);
+      setPresentAddress(data.present_address);
       setAge(data.age);
       setGender(data.gender);
       setEmail(data.student_email);
@@ -65,10 +71,30 @@ const StudentProfile = ({ match }) => {
     getStudent();
   }, [getStudent]);
 
+  let getStudentEducation = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/student/educational-record-detail/${std_id}`
+      );
+      console.log("from educ: ", response);
+      let data = await response.data;
+      setSSC_DAKHIL(data.SSC_DAKHIL);
+      setHSC_ALIM_DIPLOMA(data.HSC_ALIM_DIPLOMA);
+      setHONOURS_DEGREE_FAZIL(data.HONOURS_DEGREE_FAZIL);
+      setMASTERS_KAMIL(data.MASTERS_KAMIL);
+    } catch (err) {
+      setError(err.message);
+    }
+  }, []);
+
+  useEffect(() => {
+    getStudentEducation();
+  }, [getStudentEducation]);
+
   return (
     <div className='page-wrapper'>
       <Helmet>
-        <title>Employee Profile - HRMS admin Template</title>
+        <title>Student Profile - Pacific Academy</title>
         <meta name='description' content='Reactify Blank Page' />
       </Helmet>
       {/* Page Content */}
@@ -107,7 +133,7 @@ const StudentProfile = ({ match }) => {
                   </div>
                   <div className='profile-basic'>
                     <div className='row'>
-                      <div className='col-md-5'>
+                      <div className='col-md-4'>
                         <div className='profile-info-left'>
                           <h3 className='user-name m-t-0 mb-0'>
                             {student_name}
@@ -120,7 +146,7 @@ const StudentProfile = ({ match }) => {
                           <div className='small doj text-muted'>
                             Date of Registration : {date_of_registration}
                           </div>
-                          <div className='staff-msg'>
+                          {/* <div className='staff-msg'>
                             <Link
                               onClick={() =>
                                 localStorage.setItem("minheight", "true")
@@ -130,38 +156,36 @@ const StudentProfile = ({ match }) => {
                             >
                               Send Message
                             </Link>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
-                      <div className='col-md-7'>
+                      <div className='col-md-8'>
                         <ul className='personal-info'>
                           <li>
                             <div className='title'>Phone:</div>
                             <div className='text'>
-                              <a href=''>9876543210</a>
+                              <a href=''>{contactNumber}</a>
                             </div>
                           </li>
                           <li>
                             <div className='title'>Email:</div>
                             <div className='text'>
-                              <a href=''>johndoe@example.com</a>
+                              <a href=''>{student_email}</a>
                             </div>
                           </li>
                           <li>
                             <div className='title'>Birthday:</div>
-                            <div className='text'>24th July</div>
+                            <div className='text'>{date_of_birth}</div>
                           </li>
                           <li>
-                            <div className='title'>Address:</div>
-                            <div className='text'>
-                              1861 Bayonne Ave, Manchester Township, NJ, 08759
-                            </div>
+                            <div className='title'>Present Address:</div>
+                            <div className='text'>{present_address}</div>
                           </li>
                           <li>
-                            <div className='title'>Gender:</div>
-                            <div className='text'>Male</div>
+                            <div className='title pt-2'>Gender:</div>
+                            <div className='text pt-2'>{gender}</div>
                           </li>
-                          <li>
+                          {/* <li>
                             <div className='title'>Reports to:</div>
                             <div className='text'>
                               <div className='avatar-box'>
@@ -173,7 +197,7 @@ const StudentProfile = ({ match }) => {
                                 Jeffery Lalor
                               </Link>
                             </div>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                     </div>
@@ -260,18 +284,30 @@ const StudentProfile = ({ match }) => {
                         <div className='text'>9876543210</div>
                       </li>
                       <li>
+                        <div className='title'>Father's Name</div>
+                        <div className='text'>{father_name}</div>
+                      </li>
+                      <li>
+                        <div className='title'>Mother's Name</div>
+                        <div className='text'>{mother_name}</div>
+                      </li>
+                      {/* <li>
                         <div className='title'>Tel</div>
                         <div className='text'>
                           <a href=''>9876543210</a>
                         </div>
-                      </li>
+                      </li> */}
                       <li>
                         <div className='title'>Nationality</div>
-                        <div className='text'>Indian</div>
+                        <div className='text'>Bangladeshi</div>
                       </li>
                       <li>
                         <div className='title'>Religion</div>
-                        <div className='text'>Christian</div>
+                        <div className='text'>Islam</div>
+                      </li>
+                      <li>
+                        <div className='title'>Permanent Address</div>
+                        <div className='text'>{permanent_address}</div>
                       </li>
                       <li>
                         <div className='title'>Marital status</div>
@@ -281,10 +317,10 @@ const StudentProfile = ({ match }) => {
                         <div className='title'>Employment of spouse</div>
                         <div className='text'>No</div>
                       </li>
-                      <li>
+                      {/* <li>
                         <div className='title'>No. of children</div>
                         <div className='text'>2</div>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>
@@ -449,8 +485,9 @@ const StudentProfile = ({ match }) => {
                               <a href='/' className='name'>
                                 International College of Arts and Science (UG)
                               </a>
-                              <div>Bsc Computer Science</div>
-                              <span className='time'>2000 - 2003</span>
+                              <div>SSC Dakhil</div>
+                              <span className='time'>{passing_year}</span>
+                              <span className='time'>{SSC_DAKHIL}</span>
                             </div>
                           </div>
                         </li>
